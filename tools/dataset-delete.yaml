@@ -1,0 +1,30 @@
+identity:
+  name: "dataset-delete"
+  author: "starswhere"
+  label:
+    en_US: "Delete Dataset"
+    zh_Hans: "删除知识库"
+    pt_BR: "Excluir Base"
+    ja_JP: "ナレッジ削除"
+description:
+  human:
+    en_US: "Delete a dataset by id."
+    zh_Hans: "按 ID 删除知识库。"
+    pt_BR: "Exclui uma base pelo ID."
+    ja_JP: "ID指定でナレッジを削除。"
+  llm: "Delete dataset. Required: dataset_id."
+parameters:
+  - name: dataset_id
+    type: string
+    required: true
+    label:
+      en_US: "Dataset ID"
+      zh_Hans: "知识库 ID"
+    human_description:
+      en_US: "Dataset ID to delete."
+      zh_Hans: "要删除的知识库 ID。"
+    llm_description: "Dataset id path param."
+    form: llm
+extra:
+  python:
+    source: tools/dataset_delete.py

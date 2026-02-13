@@ -7,56 +7,40 @@ identity:
     pt_BR: "knowledge-control-datasets"
     ja_JP: "knowledge-control-datasets"
   description:
-    en_US: "test"
-    zh_Hans: "test"
-    pt_BR: "test"
-    ja_JP: "test"
+    en_US: "Manage Dify datasets: list/create/update/delete/retrieve."
+    zh_Hans: "管理 Dify 知识库：列出/创建/更新/删除/检索。"
+    pt_BR: "Gerencie bases Dify: listar/criar/atualizar/excluir/buscar."
+    ja_JP: "Difyナレッジの一覧・作成・更新・削除・検索を提供します。"
   icon: "icon.svg"
 
-#########################################################################################
-# If you want to support OAuth, you can uncomment the following code.
-#########################################################################################
-# oauth_schema:
-#   client_schema:
-#     - name: "client_id"
-#       type: "secret-input"
-#       required: true
-#       url: https://example.com/oauth/authorize
-#       placeholder:
-#         en_US: "Please input your Client ID"
-#         zh_Hans: "请输入你的 Client ID"
-#         pt_BR: "Insira seu Client ID"
-#       help:
-#         en_US: "Client ID is used to authenticate requests to the example.com API."
-#         zh_Hans: "Client ID 用于认证请求到 example.com API。"
-#         pt_BR: "Client ID é usado para autenticar solicitações à API do example.com."
-#       label:
-#         zh_Hans: "Client ID"
-#         en_US: "Client ID"
-#     - name: "client_secret"
-#       type: "secret-input"
-#       required: true
-#       url: https://example.com/oauth/authorize
-#       placeholder:
-#         en_US: "Please input your Client Secret"
-#         zh_Hans: "请输入你的 Client Secret"
-#         pt_BR: "Insira seu Client Secret"
-#       help:
-#         en_US: "Client Secret is used to authenticate requests to the example.com API."
-#         zh_Hans: "Client Secret 用于认证请求到 example.com API。"
-#         pt_BR: "Client Secret é usado para autenticar solicitações à API do example.com."
-#       label:
-#         zh_Hans: "Client Secret"
-#         en_US: "Client Secret"
-#   credentials_schema:
-#     - name: "access_token"
-#       type: "secret-input"
-#       label:
-#         zh_Hans: "Access Token"
-#         en_US: "Access Token"
+credentials_for_provider:
+  api_base:
+    type: text-input
+    required: false
+    label:
+      en_US: "API Base"
+      zh_Hans: "API 地址"
+    placeholder:
+      en_US: "https://api.dify.ai/v1 (or self-hosted base)"
+      zh_Hans: "https://api.dify.ai/v1 或自托管地址"
+    default: "https://api.dify.ai/v1"
+  api_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: "API Key"
+      zh_Hans: "API 密钥"
+    placeholder:
+      en_US: "Workspace API Key"
+      zh_Hans: "工作区 API Key"
 
 tools:
-  - tools/knowledge-control-datasets.yaml
+  - tools/datasets-list.yaml
+  - tools/datasets-create.yaml
+  - tools/dataset-detail.yaml
+  - tools/dataset-delete.yaml
+  - tools/dataset-update.yaml
+  - tools/dataset-retrieve.yaml
 extra:
   python:
     source: provider/knowledge-control-datasets.py

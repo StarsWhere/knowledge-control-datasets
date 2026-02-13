@@ -1,0 +1,274 @@
+identity:
+  name: "dataset-update"
+  author: "starswhere"
+  label:
+    en_US: "Update Dataset"
+    zh_Hans: "更新知识库"
+    pt_BR: "Atualizar Base"
+    ja_JP: "ナレッジ更新"
+description:
+  human:
+    en_US: "Update dataset fields such as name, permission, models, retrieval settings."
+    zh_Hans: "更新知识库名称、权限、模型、检索设置等。"
+    pt_BR: "Atualiza nome, permissão, modelos e recuperação."
+    ja_JP: "名前・権限・モデル・検索設定を更新。"
+  llm: "Update dataset by id. Optional fields mirror create API."
+parameters:
+  - name: dataset_id
+    type: string
+    required: true
+    label:
+      en_US: "Dataset ID"
+      zh_Hans: "知识库 ID"
+    human_description:
+      en_US: "Dataset id to update."
+      zh_Hans: "要更新的知识库 ID。"
+    llm_description: "dataset_id path parameter."
+    form: llm
+  - name: name
+    type: string
+    required: false
+    label:
+      en_US: Name
+      zh_Hans: 名称
+    human_description:
+      en_US: "Optional new name."
+      zh_Hans: "可选新名称。"
+    llm_description: "Dataset name."
+    form: llm
+  - name: description
+    type: string
+    required: false
+    label:
+      en_US: Description
+      zh_Hans: 描述
+    human_description:
+      en_US: "Optional description."
+      zh_Hans: "可选描述。"
+    llm_description: "Description."
+    form: llm
+  - name: indexing_technique
+    type: select
+    required: false
+    options:
+      - label:
+          en_US: "High quality"
+          zh_Hans: "高质量"
+        value: "high_quality"
+      - label:
+          en_US: "Economy"
+          zh_Hans: "经济"
+        value: "economy"
+    label:
+      en_US: "Indexing technique"
+      zh_Hans: "索引方式"
+    human_description:
+      en_US: "Embedding quality vs cost."
+      zh_Hans: "嵌入质量与成本权衡。"
+    llm_description: "indexing_technique."
+    form: form
+  - name: permission
+    type: select
+    required: false
+    options:
+      - label:
+          en_US: "Only me"
+          zh_Hans: "仅自己"
+        value: "only_me"
+      - label:
+          en_US: "All team members"
+          zh_Hans: "全体成员"
+        value: "all_team_members"
+      - label:
+          en_US: "Partial members"
+          zh_Hans: "部分成员"
+        value: "partial_members"
+    label:
+      en_US: Permission
+      zh_Hans: 权限
+    human_description:
+      en_US: "Who can access this dataset."
+      zh_Hans: "谁可以访问此知识库。"
+    llm_description: "permission."
+    form: form
+  - name: partial_member_list
+    type: string
+    required: false
+    label:
+      en_US: "Partial member IDs (comma separated)"
+      zh_Hans: "部分成员ID（逗号分隔）"
+    human_description:
+      en_US: "Needed when permission=partial_members."
+      zh_Hans: "permission=partial_members 时填写。"
+    llm_description: "Comma separated member IDs."
+    form: llm
+  - name: embedding_model_provider
+    type: string
+    required: false
+    label:
+      en_US: "Embedding model provider"
+      zh_Hans: "嵌入模型提供方"
+    human_description:
+      en_US: "Optional; leave empty to keep current."
+      zh_Hans: "可选，留空则保持当前。"
+    llm_description: "Embedding model provider."
+    form: llm
+  - name: embedding_model
+    type: string
+    required: false
+    label:
+      en_US: "Embedding model name"
+      zh_Hans: "嵌入模型名称"
+    human_description:
+      en_US: "Optional; leave empty to keep current."
+      zh_Hans: "可选，留空保持当前。"
+    llm_description: "Embedding model name."
+    form: llm
+  - name: retrieval_search_method
+    type: select
+    required: false
+    options:
+      - label:
+          en_US: "Semantic"
+          zh_Hans: "语义"
+        value: "semantic"
+      - label:
+          en_US: "Full text"
+          zh_Hans: "全文"
+        value: "full_text"
+      - label:
+          en_US: "Hybrid"
+          zh_Hans: "混合"
+        value: "hybrid"
+    label:
+      en_US: "Retrieval search method"
+      zh_Hans: "检索方式"
+    human_description:
+      en_US: "Semantic/full text/hybrid."
+      zh_Hans: "语义/全文/混合。"
+    llm_description: "retrieval search_method."
+    form: form
+  - name: retrieval_top_k
+    type: number
+    required: false
+    label:
+      en_US: "Retrieval top_k"
+      zh_Hans: "检索 top_k"
+    human_description:
+      en_US: "Top results to return."
+      zh_Hans: "返回结果数量。"
+    llm_description: "Retrieval top_k."
+    form: form
+  - name: retrieval_score_threshold_enabled
+    type: boolean
+    required: false
+    label:
+      en_US: "Enable score threshold"
+      zh_Hans: "启用分数阈值"
+    human_description:
+      en_US: "Enable score threshold filter."
+      zh_Hans: "是否启用分数阈值过滤。"
+    llm_description: "Boolean score_threshold_enabled."
+    form: form
+  - name: retrieval_score_threshold
+    type: number
+    required: false
+    label:
+      en_US: "Score threshold"
+      zh_Hans: "分数阈值"
+    human_description:
+      en_US: "0-1, effective when enabled."
+      zh_Hans: "0-1 之间，启用时生效。"
+    llm_description: "score_threshold value."
+    form: form
+  - name: reranking_enable
+    type: boolean
+    required: false
+    label:
+      en_US: "Enable rerank"
+      zh_Hans: "启用重排"
+    human_description:
+      en_US: "Use rerank model after retrieval."
+      zh_Hans: "检索后使用重排模型。"
+    llm_description: "reranking_enable boolean."
+    form: form
+  - name: reranking_mode
+    type: string
+    required: false
+    label:
+      en_US: "Rerank mode"
+      zh_Hans: "重排模式"
+    human_description:
+      en_US: "Optional mode (e.g., rerank_all)."
+      zh_Hans: "可选模式（如 rerank_all）。"
+    llm_description: "reranking_mode string."
+    form: llm
+  - name: reranking_provider_name
+    type: string
+    required: false
+    label:
+      en_US: "Rerank provider"
+      zh_Hans: "重排提供方"
+    human_description:
+      en_US: "Optional; leave empty to keep current."
+      zh_Hans: "可选，留空保持当前。"
+    llm_description: "reranking provider."
+    form: llm
+  - name: reranking_model_name
+    type: string
+    required: false
+    label:
+      en_US: "Rerank model"
+      zh_Hans: "重排模型"
+    human_description:
+      en_US: "Optional; leave empty to keep current."
+      zh_Hans: "可选，留空保持当前。"
+    llm_description: "reranking model name."
+    form: llm
+  - name: summary_enabled
+    type: boolean
+    required: false
+    label:
+      en_US: "Enable summary index"
+      zh_Hans: "启用摘要索引"
+    human_description:
+      en_US: "Build summary index for docs."
+      zh_Hans: "为文档构建摘要索引。"
+    llm_description: "summary_index_setting.enabled"
+    form: form
+  - name: summary_model_provider_name
+    type: string
+    required: false
+    label:
+      en_US: "Summary model provider"
+      zh_Hans: "摘要模型提供方"
+    human_description:
+      en_US: "Optional."
+      zh_Hans: "可选。"
+    llm_description: "summary model provider."
+    form: llm
+  - name: summary_model_name
+    type: string
+    required: false
+    label:
+      en_US: "Summary model name"
+      zh_Hans: "摘要模型名称"
+    human_description:
+      en_US: "Optional."
+      zh_Hans: "可选。"
+    llm_description: "summary model name."
+    form: llm
+  - name: summary_prompt
+    type: string
+    required: false
+    label:
+      en_US: "Summary prompt"
+      zh_Hans: "摘要提示词"
+    human_description:
+      en_US: "Custom summary prompt."
+      zh_Hans: "自定义摘要提示词。"
+    llm_description: "summary prompt text."
+    form: llm
+extra:
+  python:
+    source: tools/dataset_update.py

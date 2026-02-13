@@ -1,0 +1,142 @@
+identity:
+  name: "dataset-retrieve"
+  author: "starswhere"
+  label:
+    en_US: "Retrieve / Test Search"
+    zh_Hans: "检索块/测试搜索"
+    pt_BR: "Consultar Base"
+    ja_JP: "検索テスト"
+description:
+  human:
+    en_US: "Test retrieve chunks from a dataset with optional retrieval/rerank settings."
+    zh_Hans: "从知识库检索块并测试搜索，可选检索/重排配置。"
+    pt_BR: "Recupera blocos de uma base para teste com configurações opcionais."
+    ja_JP: "ナレッジからチャンクを検索しテスト。"
+  llm: "Retrieve chunks. Required: dataset_id, query. Optional retrieval and rerank settings."
+parameters:
+  - name: dataset_id
+    type: string
+    required: true
+    label:
+      en_US: "Dataset ID"
+      zh_Hans: "知识库 ID"
+    human_description:
+      en_US: "Dataset id to search."
+      zh_Hans: "要检索的知识库 ID。"
+    llm_description: "dataset_id path parameter."
+    form: llm
+  - name: query
+    type: string
+    required: true
+    label:
+      en_US: "Query"
+      zh_Hans: "查询"
+    human_description:
+      en_US: "Query text to search."
+      zh_Hans: "要检索的查询文本。"
+    llm_description: "search query."
+    form: llm
+  - name: retrieval_search_method
+    type: select
+    required: false
+    options:
+      - label:
+          en_US: "Semantic"
+          zh_Hans: "语义"
+        value: "semantic"
+      - label:
+          en_US: "Full text"
+          zh_Hans: "全文"
+        value: "full_text"
+      - label:
+          en_US: "Hybrid"
+          zh_Hans: "混合"
+        value: "hybrid"
+    label:
+      en_US: "Retrieval search method"
+      zh_Hans: "检索方式"
+    human_description:
+      en_US: "Semantic/full text/hybrid."
+      zh_Hans: "语义/全文/混合。"
+    llm_description: "retrieval search_method."
+    form: form
+  - name: retrieval_top_k
+    type: number
+    required: false
+    label:
+      en_US: "Retrieval top_k"
+      zh_Hans: "检索 top_k"
+    human_description:
+      en_US: "Top results to return."
+      zh_Hans: "返回结果数量。"
+    llm_description: "Retrieval top_k."
+    form: form
+  - name: retrieval_score_threshold_enabled
+    type: boolean
+    required: false
+    label:
+      en_US: "Enable score threshold"
+      zh_Hans: "启用分数阈值"
+    human_description:
+      en_US: "Enable score threshold filter."
+      zh_Hans: "是否启用分数阈值过滤。"
+    llm_description: "Boolean score_threshold_enabled."
+    form: form
+  - name: retrieval_score_threshold
+    type: number
+    required: false
+    label:
+      en_US: "Score threshold"
+      zh_Hans: "分数阈值"
+    human_description:
+      en_US: "0-1, effective when enabled."
+      zh_Hans: "0-1 之间，启用时生效。"
+    llm_description: "score_threshold value."
+    form: form
+  - name: reranking_enable
+    type: boolean
+    required: false
+    label:
+      en_US: "Enable rerank"
+      zh_Hans: "启用重排"
+    human_description:
+      en_US: "Use rerank model after retrieval."
+      zh_Hans: "检索后使用重排模型。"
+    llm_description: "reranking_enable boolean."
+    form: form
+  - name: reranking_mode
+    type: string
+    required: false
+    label:
+      en_US: "Rerank mode"
+      zh_Hans: "重排模式"
+    human_description:
+      en_US: "Optional mode (e.g., rerank_all)."
+      zh_Hans: "可选模式（如 rerank_all）。"
+    llm_description: "reranking_mode string."
+    form: llm
+  - name: reranking_provider_name
+    type: string
+    required: false
+    label:
+      en_US: "Rerank provider"
+      zh_Hans: "重排提供方"
+    human_description:
+      en_US: "Optional provider; leave empty to use dataset setting."
+      zh_Hans: "可选提供方；留空使用知识库配置。"
+    llm_description: "reranking provider."
+    form: llm
+  - name: reranking_model_name
+    type: string
+    required: false
+    label:
+      en_US: "Rerank model"
+      zh_Hans: "重排模型"
+    human_description:
+      en_US: "Optional model name; leave empty to use dataset setting."
+      zh_Hans: "可选模型名称；留空使用知识库配置。"
+    llm_description: "reranking model name."
+    form: llm
+extra:
+  python:
+    source: tools/dataset_retrieve.py

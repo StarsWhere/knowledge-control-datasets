@@ -1,0 +1,74 @@
+identity:
+  name: "datasets-list"
+  author: "starswhere"
+  label:
+    en_US: "List Datasets"
+    zh_Hans: "获取知识库列表"
+    pt_BR: "Listar Bases"
+    ja_JP: "ナレッジ一覧"
+description:
+  human:
+    en_US: "List datasets in the current workspace with optional filters."
+    zh_Hans: "列出当前工作区的知识库，可按关键字/标签过滤。"
+    pt_BR: "Lista bases de conhecimento com filtros."
+    ja_JP: "ワークスペース内のナレッジをキーワード/タグで取得。"
+  llm: "List datasets. Optional filters: keyword, tag_ids, include_all, page, limit."
+parameters:
+  - name: keyword
+    type: string
+    required: false
+    label:
+      en_US: Keyword
+      zh_Hans: 关键字
+    human_description:
+      en_US: "Search by dataset name keyword."
+      zh_Hans: "按名称关键字过滤。"
+    llm_description: "Optional keyword to search datasets by name."
+    form: llm
+  - name: tag_ids
+    type: string
+    required: false
+    label:
+      en_US: "Tag IDs (comma separated)"
+      zh_Hans: "标签ID（逗号分隔）"
+    human_description:
+      en_US: "Comma separated tag id list."
+      zh_Hans: "用逗号分隔的标签ID列表。"
+    llm_description: "Optional comma separated tag ids."
+    form: llm
+  - name: include_all
+    type: boolean
+    required: false
+    label:
+      en_US: "Include all (owner only)"
+      zh_Hans: "包含全部（仅工作区拥有者）"
+    human_description:
+      en_US: "If true and you are owner, include all datasets."
+      zh_Hans: "工作区拥有者可选择包含全部知识库。"
+    llm_description: "Boolean flag include_all."
+    form: form
+  - name: page
+    type: number
+    required: false
+    label:
+      en_US: Page
+      zh_Hans: 页码
+    human_description:
+      en_US: "Page number (default 1)."
+      zh_Hans: "页码，默认1。"
+    llm_description: "Optional page number."
+    form: form
+  - name: limit
+    type: number
+    required: false
+    label:
+      en_US: "Page size"
+      zh_Hans: "每页数量"
+    human_description:
+      en_US: "Items per page (1-100, default 20)."
+      zh_Hans: "每页数量 1-100，默认20。"
+    llm_description: "Optional page size."
+    form: form
+extra:
+  python:
+    source: tools/datasets_list.py

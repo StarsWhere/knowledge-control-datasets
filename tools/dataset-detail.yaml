@@ -1,0 +1,30 @@
+identity:
+  name: "dataset-detail"
+  author: "starswhere"
+  label:
+    en_US: "Get Dataset Detail"
+    zh_Hans: "获取知识库详情"
+    pt_BR: "Detalhe da Base"
+    ja_JP: "ナレッジ詳細"
+description:
+  human:
+    en_US: "Get detail of a dataset by id."
+    zh_Hans: "通过 ID 获取知识库详情。"
+    pt_BR: "Obtém detalhes de uma base pelo ID."
+    ja_JP: "ID でナレッジ詳細を取得。"
+  llm: "Get dataset detail. Required: dataset_id."
+parameters:
+  - name: dataset_id
+    type: string
+    required: true
+    label:
+      en_US: "Dataset ID"
+      zh_Hans: "知识库 ID"
+    human_description:
+      en_US: "Dataset ID to retrieve."
+      zh_Hans: "要查询的知识库 ID。"
+    llm_description: "Dataset id path param."
+    form: llm
+extra:
+  python:
+    source: tools/dataset_detail.py
