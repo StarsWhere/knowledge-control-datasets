@@ -10,6 +10,8 @@ permissions:
 jobs:
   build-release:
     runs-on: ubuntu-latest
+    env:
+      PLUGIN_CLI_VERSION: "0.5.3"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,13 +28,14 @@ jobs:
 
       - name: Download dify plugin CLI
         run: |
-          curl -L https://github.com/langgenius/dify-plugin-daemon/releases/download/0.5.3/dify-plugin-linux-amd64 -o /tmp/dify-plugin-linux-amd64
-          chmod +x /tmp/dify-plugin-linux-amd64
+          curl -L "https://github.com/langgenius/dify-plugin-daemon/releases/download/${PLUGIN_CLI_VERSION}/dify-plugin-linux-amd64" -o /tmp/dify-plugin
+          chmod +x /tmp/dify-plugin
+          /tmp/dify-plugin version
 
       - name: Package plugin
         run: |
           mkdir -p dist
-          /tmp/dify-plugin-linux-amd64 plugin package . -o dist/knowledge-control-datasets.difypkg
+          /tmp/dify-plugin plugin package . -o dist/knowledge-control-datasets.difypkg
           ls -l dist
 
       - name: Write signing keys
@@ -46,17 +49,30 @@ jobs:
 
       - name: Sign package
         run: |
-          /tmp/dify-plugin-linux-amd64 signature sign \
-            --private-key /tmp/plugin-private.pem \
-            --input dist/knowledge-control-datasets.difypkg \
-            --output dist/knowledge-control-datasets.difypkg.sig
+          /tmp/dify-plugin signature sign dist/knowledge-control-datasets.difypkg \
+            -p /tmp/plugin-private.pem \
+            -o dist/knowledge-control-datasets.signed.difypkg
+
+      - name: Verify signature
+        run: |
+          /tmp/dify-plugin signature verify dist/knowledge-control-datasets.signed.difypkg -p dist/plugin-public.pem
 
       - name: Compute next tag
         id: tagger
         run: |
           latest=$(git tag -l "v0.*" --sort=-v:refname | head -n1)
-          if [ -z "$latest" ]; then next="v0.1"; else
-            minor=${latest#v0.}; next="v0.$((minor+1))"
+          if [ -z "$latest" ]; then
+            next="v0.0.1"
+          else
+            next=$(python - <<PY
+latest = "${latest}".lstrip("v")
+parts = list(map(int, latest.split(".")))
+while len(parts) < 3:
+    parts.append(0)
+parts[2] += 1  # bump patch
+print(f"v{parts[0]}.{parts[1]}.{parts[2]}")
+PY
+)
           fi
           echo "next_tag=$next" >> $GITHUB_OUTPUT
           echo "Next tag: $next"
@@ -68,7 +84,7 @@ jobs:
           name: ${{ steps.tagger.outputs.next_tag }}
           files: |
             dist/knowledge-control-datasets.difypkg
-            dist/knowledge-control-datasets.difypkg.sig
+            dist/knowledge-control-datasets.signed.difypkg
             dist/plugin-public.pem
           draft: false
           prerelease: false
