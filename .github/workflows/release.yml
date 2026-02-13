@@ -1,0 +1,58 @@
+name: Build & Release Dify Plugin
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install -r knowledge-control-datasets/requirements.txt
+
+      - name: Download dify plugin CLI
+        run: |
+          curl -L https://github.com/langgenius/dify-plugin-daemon/releases/download/0.5.3/dify-plugin-linux-amd64 -o /tmp/dify-plugin-linux-amd64
+          chmod +x /tmp/dify-plugin-linux-amd64
+
+      - name: Package plugin
+        run: |
+          mkdir -p dist
+          cd knowledge-control-datasets
+          /tmp/dify-plugin-linux-amd64 plugin package . -o ../dist/knowledge-control-datasets.difypkg
+          ls -l ../dist
+
+      - name: Compute next tag
+        id: tagger
+        run: |
+          latest=$(git tag -l "v0.*" --sort=-v:refname | head -n1)
+          if [ -z "$latest" ]; then next="v0.1"; else
+            minor=${latest#v0.}; next="v0.$((minor+1))"
+          fi
+          echo "next_tag=$next" >> $GITHUB_OUTPUT
+          echo "Next tag: $next"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tagger.outputs.next_tag }}
+          name: ${{ steps.tagger.outputs.next_tag }}
+          files: dist/knowledge-control-datasets.difypkg
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
