@@ -13,6 +13,7 @@ from common import (
     _build_retrieval_model,
     _build_summary_setting,
     _csv_to_list,
+    drop_none,
     suggest_models,
 )
 
@@ -23,10 +24,10 @@ class DatasetsCreateTool(Tool):
             client = DifyClient(self.runtime.credentials)
             body: dict[str, Any] = {
                 "name": tool_parameters["name"],
-                "description": tool_parameters.get("description"),
+                "description": tool_parameters.get("description", "") or "",
                 "indexing_technique": tool_parameters.get("indexing_technique"),
                 "permission": tool_parameters.get("permission"),
-                "provider": tool_parameters.get("provider"),
+                "provider": tool_parameters.get("provider") or "vendor",
                 "external_knowledge_api_id": tool_parameters.get("external_knowledge_api_id"),
                 "external_knowledge_id": tool_parameters.get("external_knowledge_id"),
                 "embedding_model": tool_parameters.get("embedding_model"),
@@ -44,7 +45,7 @@ class DatasetsCreateTool(Tool):
             if summary_setting:
                 body["summary_index_setting"] = summary_setting
 
-            data = client.request("POST", "/datasets", json=body)
+            data = client.request("POST", "/datasets", json=drop_none(body))
             result = {"data": data}
             result.update(suggest_models(client))
             yield self.create_json_message(result)

@@ -103,3 +103,8 @@ def suggest_models(client: DifyClient) -> dict[str, Any]:
         "available_embedding_models": client.list_models("text-embedding"),
         "available_rerank_models": client.list_models("rerank"),
     }
+
+
+def drop_none(d: dict[str, Any]) -> dict[str, Any]:
+    """Shallow remove None values to avoid sending nulls to Dify API."""
+    return {k: v for k, v in d.items() if v is not None}

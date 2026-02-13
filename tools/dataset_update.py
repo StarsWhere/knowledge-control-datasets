@@ -13,6 +13,7 @@ from common import (
     _build_retrieval_model,
     _build_summary_setting,
     _csv_to_list,
+    drop_none,
     suggest_models,
 )
 
@@ -49,7 +50,7 @@ class DatasetUpdateTool(Tool):
             if summary_setting:
                 body["summary_index_setting"] = summary_setting
 
-            data = client.request("PATCH", f"/datasets/{dataset_id}", json=body)
+            data = client.request("PATCH", f"/datasets/{dataset_id}", json=drop_none(body))
             result = {"data": data}
             result.update(suggest_models(client))
             yield self.create_json_message(result)
