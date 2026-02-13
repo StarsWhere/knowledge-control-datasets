@@ -2,7 +2,7 @@
 
 `knowledge-control-datasets` は `knowledge-control` シリーズの「ナレッジベース/データセット管理」用ツールプラグインです。Dify のデータセット API を、一覧・作成・更新・削除・詳細取得・検索テストの小さなツールに分割し、シンプルに扱えるようにしました。
 
-**作者**：starswhere  
+**作者**：StarsWhere  
 **バージョン**：0.0.1  
 **タイプ**：Dify ツールプラグイン（Python 3.12）
 

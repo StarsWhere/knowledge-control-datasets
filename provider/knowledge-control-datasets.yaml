@@ -2,10 +2,10 @@ identity:
   author: "starswhere"
   name: "knowledge-control-datasets"
   label:
-    en_US: "knowledge-control-datasets"
-    zh_Hans: "knowledge-control-datasets"
-    pt_BR: "knowledge-control-datasets"
-    ja_JP: "knowledge-control-datasets"
+    en_US: "Knowledge Control - Datasets"
+    zh_Hans: "知识掌控 - 数据集"
+    pt_BR: "Controle de Conhecimento - Datasets"
+    ja_JP: "ナレッジコントロール - データセット"
   description:
     en_US: "Manage Dify datasets: list/create/update/delete/retrieve."
     zh_Hans: "管理 Dify 知识库：列出/创建/更新/删除/检索。"

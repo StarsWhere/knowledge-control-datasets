@@ -2,7 +2,7 @@
 
 Knowledge-control-datasets is the dataset management tool plugin in the `knowledge-control` series. It exposes the Dify “数据集/知识库” API as a set of small, composable tools: list, create, update, delete, inspect details, and test retrieval. Each action is a separate tool to keep user prompts simple and predictable.
 
-**Author:** starswhere  
+**Author:** StarsWhere  
 **Version:** 0.0.1  
 **Type:** Dify Tool Plugin (Python 3.12)
 **License:** Apache-2.0

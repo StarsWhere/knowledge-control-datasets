@@ -2,7 +2,7 @@
 
 `knowledge-control-datasets` 是 `knowledge-control` 系列中负责“知识库/数据集”管理的工具插件，把 Dify 的数据集 API 拆成多个易用的小工具：列出、创建、更新、删除、查看详情、检索测试。每个动作独立成一个工具，避免复杂聚合。
 
-**作者**：starswhere  
+**作者**：StarsWhere  
 **版本**：0.0.1  
 **类型**：Dify 工具插件（Python 3.12）
 
