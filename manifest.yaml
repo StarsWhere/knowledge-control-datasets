@@ -3,31 +3,33 @@ type: plugin
 author: starswhere
 name: knowledge-control-datasets
 label:
-  en_US: knowledge-control-datasets
-  ja_JP: knowledge-control-datasets
-  zh_Hans: knowledge-control-datasets
-  pt_BR: knowledge-control-datasets
+  en_US: Knowledge Control - Datasets
+  ja_JP: ナレッジコントロール - データセット
+  zh_Hans: 知识掌控 - 数据集
+  pt_BR: Controle de Conhecimento - Datasets
 description:
-  en_US: test
-  ja_JP: test
-  zh_Hans: test
-  pt_BR: test
+  en_US: "Manage Dify datasets: list, create, update, delete, inspect, and test retrieval. Part of the knowledge-control series."
+  ja_JP: "Difyのナレッジベース/データセットを管理（一覧・作成・更新・削除・詳細・検索テスト）するツール。knowledge-controlシリーズの一部。"
+  zh_Hans: "管理 Dify 知识库/数据集：列表、创建、更新、删除、查看详情与检索测试。属于 knowledge-control 系列插件。"
+  pt_BR: "Gerencie datasets do Dify: listar, criar, atualizar, excluir, detalhes e teste de busca. Parte da série knowledge-control."
 icon: icon.svg
 icon_dark: icon-dark.svg
 resource:
   memory: 268435456
   permission:
-    model:
+    tool:
       enabled: true
+    model:
+      enabled: false
       llm: false
-      text_embedding: true
-      rerank: true
+      text_embedding: false
+      rerank: false
       tts: false
       speech2text: false
       moderation: false
-    storage:
-      enabled: true
-      size: 1048576
+  storage:
+    enabled: true
+    size: 1048576
 plugins:
   tools:
     - provider/knowledge-control-datasets.yaml
