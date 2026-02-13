@@ -130,6 +130,14 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.pytest_cache/
+.mypy_cache/
+.idea/
+.vscode/
+
+# local plugin signing keys (do NOT commit)
+plugin-key.private.pem
+plugin-key.public.pem
 env/
 venv/
 ENV/

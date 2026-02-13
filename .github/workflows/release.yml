@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install deps
-        run: pip install -r knowledge-control-datasets/requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Download dify plugin CLI
         run: |
@@ -32,9 +32,24 @@ jobs:
       - name: Package plugin
         run: |
           mkdir -p dist
-          cd knowledge-control-datasets
-          /tmp/dify-plugin-linux-amd64 plugin package . -o ../dist/knowledge-control-datasets.difypkg
-          ls -l ../dist
+          /tmp/dify-plugin-linux-amd64 plugin package . -o dist/knowledge-control-datasets.difypkg
+          ls -l dist
+
+      - name: Write signing keys
+        run: |
+          echo "$PRIVATE_KEY" > /tmp/plugin-private.pem
+          echo "$PUBLIC_KEY" > dist/plugin-public.pem
+          chmod 600 /tmp/plugin-private.pem dist/plugin-public.pem
+        env:
+          PRIVATE_KEY: ${{ secrets.PLUGIN_PRIVATE_KEY_PEM }}
+          PUBLIC_KEY: ${{ secrets.PLUGIN_PUBLIC_KEY_PEM }}
+
+      - name: Sign package
+        run: |
+          /tmp/dify-plugin-linux-amd64 signature sign \
+            --private-key /tmp/plugin-private.pem \
+            --input dist/knowledge-control-datasets.difypkg \
+            --output dist/knowledge-control-datasets.difypkg.sig
 
       - name: Compute next tag
         id: tagger
@@ -51,7 +66,10 @@ jobs:
         with:
           tag_name: ${{ steps.tagger.outputs.next_tag }}
           name: ${{ steps.tagger.outputs.next_tag }}
-          files: dist/knowledge-control-datasets.difypkg
+          files: |
+            dist/knowledge-control-datasets.difypkg
+            dist/knowledge-control-datasets.difypkg.sig
+            dist/plugin-public.pem
           draft: false
           prerelease: false
         env:
