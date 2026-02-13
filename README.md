@@ -5,6 +5,7 @@ Knowledge-control-datasets is the dataset management tool plugin in the `knowled
 **Author:** starswhere  
 **Version:** 0.0.1  
 **Type:** Dify Tool Plugin (Python 3.12)
+**License:** Apache-2.0
 
 ### What it does
 - Manage datasets in a workspace: create, update, delete, view detail, list all.
@@ -47,6 +48,7 @@ Knowledge-control-datasets is the dataset management tool plugin in the `knowled
 - `tools/*.yaml` — per-tool schemas and labels.
 - `tools/*.py` — per-tool implementations.
 - `tools/common.py` — shared HTTP client and helpers.
+- `LICENSE` — Apache-2.0, Copyright 2026 StarsWhere (contact: starswherevip@gmail.com).
 
 ### Part of the knowledge-control family
 This plugin focuses on datasets/knowledge bases. Other `knowledge-control` series plugins will manage adjacent capabilities; they can be installed independently.
