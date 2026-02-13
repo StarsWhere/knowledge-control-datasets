@@ -64,15 +64,7 @@ jobs:
           if [ -z "$latest" ]; then
             next="v0.0.1"
           else
-            next=$(python - <<PY
-latest = "${latest}".lstrip("v")
-parts = list(map(int, latest.split(".")))
-while len(parts) < 3:
-    parts.append(0)
-parts[2] += 1  # bump patch
-print(f"v{parts[0]}.{parts[1]}.{parts[2]}")
-PY
-)
+            next=$(python -c 'import sys; parts=list(map(int,sys.argv[1].lstrip("v").split("."))); parts += [0]*(3-len(parts)); parts[2]+=1; print(f"v{parts[0]}.{parts[1]}.{parts[2]}")' "$latest")
           fi
           echo "next_tag=$next" >> $GITHUB_OUTPUT
           echo "Next tag: $next"
