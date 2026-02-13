@@ -105,8 +105,17 @@ parameters:
     llm_description: "reranking_enable boolean."
     form: form
   - name: reranking_mode
-    type: string
+    type: select
     required: false
+    options:
+      - label:
+          en_US: "Rerank all"
+          zh_Hans: "重排全部"
+        value: "rerank_all"
+      - label:
+          en_US: "Rerank top_k"
+          zh_Hans: "重排 top_k"
+        value: "rerank_top_k"
     label:
       en_US: "Rerank mode"
       zh_Hans: "重排模式"
