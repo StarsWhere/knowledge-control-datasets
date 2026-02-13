@@ -48,14 +48,19 @@ jobs:
           PUBLIC_KEY: ${{ secrets.PLUGIN_PUBLIC_KEY_PEM }}
 
       - name: Sign package
+        id: sign
         run: |
-          /tmp/dify-plugin signature sign dist/knowledge-control-datasets.difypkg \
-            -p /tmp/plugin-private.pem \
-            -o dist/knowledge-control-datasets.signed.difypkg
+          set -euo pipefail
+          /tmp/dify-plugin signature sign dist/knowledge-control-datasets.difypkg -p /tmp/plugin-private.pem
+          SIGNED_PKG=$(ls dist/*.signed.difypkg)
+          echo "signed_pkg=$SIGNED_PKG" >> $GITHUB_OUTPUT
+          ls -l dist
 
       - name: Verify signature
         run: |
-          /tmp/dify-plugin signature verify dist/knowledge-control-datasets.signed.difypkg -p dist/plugin-public.pem
+          set -euo pipefail
+          test -f "${{ steps.sign.outputs.signed_pkg }}"
+          /tmp/dify-plugin signature verify "${{ steps.sign.outputs.signed_pkg }}" -p dist/plugin-public.pem
 
       - name: Compute next tag
         id: tagger
@@ -76,7 +81,7 @@ jobs:
           name: ${{ steps.tagger.outputs.next_tag }}
           files: |
             dist/knowledge-control-datasets.difypkg
-            dist/knowledge-control-datasets.signed.difypkg
+            ${{ steps.sign.outputs.signed_pkg }}
             dist/plugin-public.pem
           draft: false
           prerelease: false
