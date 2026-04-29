@@ -8,7 +8,12 @@ sys.path.append(os.path.dirname(__file__))
 
 from dify_plugin import Tool
 
-from common import DifyClient, _build_retrieval_model, suggest_models
+from common import (
+    DifyClient,
+    _build_retrieval_model,
+    complete_retrieval_model,
+    suggest_models,
+)
 
 
 class DatasetRetrieveTool(Tool):
@@ -19,7 +24,9 @@ class DatasetRetrieveTool(Tool):
             body: dict[str, Any] = {"query": tool_parameters["query"]}
             retrieval_model = _build_retrieval_model(tool_parameters)
             if retrieval_model:
-                body["retrieval_model"] = retrieval_model
+                current = client.request("GET", f"/datasets/{dataset_id}") or {}
+                current_retrieval = current.get("retrieval_model_dict") or current.get("retrieval_model")
+                body["retrieval_model"] = complete_retrieval_model(retrieval_model, current_retrieval)
             data = client.request("POST", f"/datasets/{dataset_id}/retrieve", json=body)
             result = {"data": data}
             result.update(suggest_models(client))

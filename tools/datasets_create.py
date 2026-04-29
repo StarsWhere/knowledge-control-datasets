@@ -13,6 +13,7 @@ from common import (
     _build_retrieval_model,
     _build_summary_setting,
     _csv_to_list,
+    complete_retrieval_model,
     drop_none,
     suggest_models,
 )
@@ -39,7 +40,7 @@ class DatasetsCreateTool(Tool):
 
             retrieval_model = _build_retrieval_model(tool_parameters)
             if retrieval_model:
-                body["retrieval_model"] = retrieval_model
+                body["retrieval_model"] = complete_retrieval_model(retrieval_model)
 
             summary_setting = _build_summary_setting(tool_parameters)
             if summary_setting:

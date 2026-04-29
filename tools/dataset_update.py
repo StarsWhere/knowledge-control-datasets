@@ -13,6 +13,7 @@ from common import (
     _build_retrieval_model,
     _build_summary_setting,
     _csv_to_list,
+    complete_retrieval_model,
     drop_none,
     suggest_models,
 )
@@ -44,7 +45,9 @@ class DatasetUpdateTool(Tool):
 
             retrieval_model = _build_retrieval_model(tool_parameters)
             if retrieval_model:
-                body["retrieval_model"] = retrieval_model
+                current = client.request("GET", f"/datasets/{dataset_id}") or {}
+                current_retrieval = current.get("retrieval_model_dict") or current.get("retrieval_model")
+                body["retrieval_model"] = complete_retrieval_model(retrieval_model, current_retrieval)
 
             summary_setting = _build_summary_setting(tool_parameters)
             if summary_setting:

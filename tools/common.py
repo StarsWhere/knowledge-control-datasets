@@ -73,6 +73,33 @@ def _normalize_reranking_mode(value: str) -> str:
     }.get(value, value)
 
 
+def _normalize_reranking_model(model: Any) -> dict[str, Any]:
+    if not isinstance(model, dict):
+        return {}
+    provider = model.get("reranking_provider_name") or model.get("provider_name")
+    name = model.get("reranking_model_name") or model.get("model_name")
+    normalized: dict[str, Any] = {}
+    if provider:
+        normalized["reranking_provider_name"] = provider
+    if name:
+        normalized["reranking_model_name"] = name
+    return normalized
+
+
+def _normalize_retrieval_model(model: Any) -> dict[str, Any]:
+    if not isinstance(model, dict):
+        return {}
+    normalized = {k: v for k, v in model.items() if v is not None}
+    if normalized.get("search_method"):
+        normalized["search_method"] = _normalize_search_method(normalized["search_method"])
+    if normalized.get("reranking_mode"):
+        normalized["reranking_mode"] = _normalize_reranking_mode(normalized["reranking_mode"])
+    reranking_model = _normalize_reranking_model(normalized.get("reranking_model"))
+    if reranking_model:
+        normalized["reranking_model"] = reranking_model
+    return normalized
+
+
 def _build_retrieval_model(params: dict[str, Any]) -> Optional[dict[str, Any]]:
     retrieval: dict[str, Any] = {}
     search_method = params.get("retrieval_search_method")
@@ -98,6 +125,26 @@ def _build_retrieval_model(params: dict[str, Any]) -> Optional[dict[str, Any]]:
     if rerank_model_dict:
         retrieval["reranking_model"] = rerank_model_dict
     return retrieval if retrieval else None
+
+
+def complete_retrieval_model(partial: dict[str, Any], base: Any = None) -> dict[str, Any]:
+    """Fill Dify's required retrieval_model fields without losing existing settings."""
+    retrieval = {
+        "search_method": "semantic_search",
+        "reranking_enable": False,
+        "top_k": 3,
+        "score_threshold_enabled": False,
+    }
+    retrieval.update(_normalize_retrieval_model(base))
+    base_reranking_model = _normalize_reranking_model(retrieval.get("reranking_model"))
+    retrieval.update(_normalize_retrieval_model(partial))
+    patch_reranking_model = _normalize_reranking_model(partial.get("reranking_model"))
+    reranking_model = {**base_reranking_model, **patch_reranking_model}
+    if reranking_model:
+        retrieval["reranking_model"] = reranking_model
+    if retrieval.get("reranking_enable") and not retrieval.get("reranking_mode"):
+        retrieval["reranking_mode"] = "reranking_model"
+    return retrieval
 
 
 def _build_summary_setting(params: dict[str, Any]) -> Optional[dict[str, Any]]:
