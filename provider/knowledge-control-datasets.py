@@ -22,7 +22,7 @@ class KnowledgeControlDatasetsProvider(ToolProvider):
                 headers={"Authorization": f"Bearer {api_key}"},
                 timeout=15,
             )
-            if resp.status_code not in (200, 401, 403, 404):
+            if resp.status_code not in (200, 401, 403):
                 resp.raise_for_status()
             if resp.status_code in (401, 403):
                 raise ToolProviderCredentialValidationError("API key is invalid or lacks permission.")
