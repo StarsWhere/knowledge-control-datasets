@@ -131,22 +131,26 @@ parameters:
       - label:
           en_US: "Semantic"
           zh_Hans: "语义"
-        value: "semantic"
+        value: "semantic_search"
       - label:
           en_US: "Full text"
           zh_Hans: "全文"
-        value: "full_text"
+        value: "full_text_search"
       - label:
           en_US: "Hybrid"
           zh_Hans: "混合"
-        value: "hybrid"
+        value: "hybrid_search"
+      - label:
+          en_US: "Keyword"
+          zh_Hans: "关键词"
+        value: "keyword_search"
     label:
       en_US: "Retrieval search method"
       zh_Hans: "检索方式"
     human_description:
-      en_US: "Semantic/full text/hybrid."
-      zh_Hans: "语义/全文/混合。"
-    llm_description: "retrieval search_method."
+      en_US: "Semantic/full text/hybrid/keyword."
+      zh_Hans: "语义/全文/混合/关键词。"
+    llm_description: "retrieval search_method: semantic_search, full_text_search, hybrid_search, or keyword_search."
     form: form
   - name: retrieval_top_k
     type: number
@@ -197,20 +201,20 @@ parameters:
     required: false
     options:
       - label:
-          en_US: "Rerank all"
-          zh_Hans: "重排全部"
-        value: "rerank_all"
+          en_US: "Reranking model"
+          zh_Hans: "重排模型"
+        value: "reranking_model"
       - label:
-          en_US: "Rerank top_k"
-          zh_Hans: "重排 top_k"
-        value: "rerank_top_k"
+          en_US: "Weighted score"
+          zh_Hans: "权重得分"
+        value: "weighted_score"
     label:
       en_US: "Rerank mode"
       zh_Hans: "重排模式"
     human_description:
-      en_US: "Optional mode (e.g., rerank_all)."
-      zh_Hans: "可选模式（如 rerank_all）。"
-    llm_description: "reranking_mode string."
+      en_US: "Optional mode used when rerank is enabled."
+      zh_Hans: "启用重排时使用的可选模式。"
+    llm_description: "reranking_mode: reranking_model or weighted_score."
     form: llm
   - name: reranking_provider_name
     type: string

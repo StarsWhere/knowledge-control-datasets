@@ -58,11 +58,26 @@ def _csv_to_list(value: Optional[str]) -> Optional[list[str]]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
+def _normalize_search_method(value: str) -> str:
+    return {
+        "semantic": "semantic_search",
+        "full_text": "full_text_search",
+        "hybrid": "hybrid_search",
+    }.get(value, value)
+
+
+def _normalize_reranking_mode(value: str) -> str:
+    return {
+        "rerank_all": "reranking_model",
+        "rerank_top_k": "reranking_model",
+    }.get(value, value)
+
+
 def _build_retrieval_model(params: dict[str, Any]) -> Optional[dict[str, Any]]:
     retrieval: dict[str, Any] = {}
     search_method = params.get("retrieval_search_method")
     if search_method:
-        retrieval["search_method"] = search_method
+        retrieval["search_method"] = _normalize_search_method(search_method)
     if params.get("retrieval_top_k") is not None:
         retrieval["top_k"] = int(params["retrieval_top_k"])
     if params.get("retrieval_score_threshold_enabled") is not None:
@@ -72,14 +87,14 @@ def _build_retrieval_model(params: dict[str, Any]) -> Optional[dict[str, Any]]:
     if params.get("reranking_enable") is not None:
         retrieval["reranking_enable"] = bool(params["reranking_enable"])
     if params.get("reranking_mode"):
-        retrieval["reranking_mode"] = params["reranking_mode"]
+        retrieval["reranking_mode"] = _normalize_reranking_mode(params["reranking_mode"])
     rerank_provider = params.get("reranking_provider_name")
     rerank_model = params.get("reranking_model_name")
     rerank_model_dict: dict[str, Any] = {}
     if rerank_provider:
-        rerank_model_dict["provider_name"] = rerank_provider
+        rerank_model_dict["reranking_provider_name"] = rerank_provider
     if rerank_model:
-        rerank_model_dict["model_name"] = rerank_model
+        rerank_model_dict["reranking_model_name"] = rerank_model
     if rerank_model_dict:
         retrieval["reranking_model"] = rerank_model_dict
     return retrieval if retrieval else None
