@@ -11,7 +11,7 @@ jobs:
   build-release:
     runs-on: ubuntu-latest
     env:
-      PLUGIN_CLI_VERSION: "0.5.3"
+      PLUGIN_CLI_VERSION: "0.6.0"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,17 +62,14 @@ jobs:
           test -f "${{ steps.sign.outputs.signed_pkg }}"
           /tmp/dify-plugin signature verify "${{ steps.sign.outputs.signed_pkg }}" -p dist/plugin-public.pem
 
-      - name: Compute next tag
+      - name: Read manifest version
         id: tagger
         run: |
-          latest=$(git tag -l "v0.*" --sort=-v:refname | head -n1)
-          if [ -z "$latest" ]; then
-            next="v0.0.1"
-          else
-            next=$(python -c 'import sys; parts=list(map(int,sys.argv[1].lstrip("v").split("."))); parts += [0]*(3-len(parts)); parts[2]+=1; print(f"v{parts[0]}.{parts[1]}.{parts[2]}")' "$latest")
-          fi
+          version=$(sed -n 's/^version:[[:space:]]*//p' manifest.yaml | head -n1 | tr -d '"')
+          test -n "$version"
+          next="v${version}"
           echo "next_tag=$next" >> $GITHUB_OUTPUT
-          echo "Next tag: $next"
+          echo "Release tag: $next"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
