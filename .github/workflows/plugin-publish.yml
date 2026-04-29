@@ -7,17 +7,20 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      PLUGIN_CLI_VERSION: "0.6.0"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download CLI tool
         run: |
           mkdir -p $RUNNER_TEMP/bin
           cd $RUNNER_TEMP/bin
 
-          wget https://github.com/langgenius/dify-plugin-daemon/releases/download/0.0.6/dify-plugin-linux-amd64
+          curl -L "https://github.com/langgenius/dify-plugin-daemon/releases/download/${PLUGIN_CLI_VERSION}/dify-plugin-linux-amd64" -o dify-plugin-linux-amd64
           chmod +x dify-plugin-linux-amd64
+          ./dify-plugin-linux-amd64 version
 
           echo "CLI tool location:"
           pwd
@@ -56,7 +59,7 @@ jobs:
           tree || ls -R
 
       - name: Checkout target repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{steps.get_basic_info.outputs.author}}/dify-plugins
           path: dify-plugins
@@ -100,7 +103,7 @@ jobs:
         run: |
           gh pr create \
             --repo langgenius/dify-plugins \
-            --head "${{ steps.get_basic_info.outputs.author }}:${{ steps.get_basic_info.outputs.plugin_name }}-${{ steps.get_basic_info.outputs.version }}" \
+            --head "${{ steps.get_basic_info.outputs.author }}:bump-${{ steps.get_basic_info.outputs.plugin_name }}-plugin-${{ steps.get_basic_info.outputs.version }}" \
             --base main \
             --title "bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin to version ${{ steps.get_basic_info.outputs.version }}" \
             --body "bump ${{ steps.get_basic_info.outputs.plugin_name }} plugin package to version ${{ steps.get_basic_info.outputs.version }}
