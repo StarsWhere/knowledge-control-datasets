@@ -150,13 +150,13 @@ def complete_retrieval_model(partial: dict[str, Any], base: Any = None) -> dict[
 def _build_summary_setting(params: dict[str, Any]) -> Optional[dict[str, Any]]:
     summary: dict[str, Any] = {}
     if params.get("summary_enabled") is not None:
-        summary["enabled"] = bool(params["summary_enabled"])
+        summary["enable"] = bool(params["summary_enabled"])
     if params.get("summary_model_provider_name"):
         summary["model_provider_name"] = params["summary_model_provider_name"]
     if params.get("summary_model_name"):
         summary["model_name"] = params["summary_model_name"]
     if params.get("summary_prompt"):
-        summary["prompt_template"] = params["summary_prompt"]
+        summary["summary_prompt"] = params["summary_prompt"]
     return summary if summary else None
 
 

@@ -278,7 +278,7 @@ parameters:
     human_description:
       en_US: "Build summary index for docs."
       zh_Hans: "为文档构建摘要索引。"
-    llm_description: "summary_index_setting.enabled"
+    llm_description: "summary_index_setting.enable"
     form: form
   - name: summary_model_provider_name
     type: string
