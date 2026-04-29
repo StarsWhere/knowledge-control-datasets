@@ -2,9 +2,11 @@
 
 `knowledge-control-datasets` 是 `knowledge-control` 系列中负责“知识库/数据集”管理的工具插件，把 Dify 的数据集 API 拆成多个易用的小工具：列出、创建、更新、删除、查看详情、检索测试。每个动作独立成一个工具，避免复杂聚合。
 
-**作者**：StarsWhere  
-**版本**：0.0.1  
-**类型**：Dify 工具插件（Python 3.12）
+- **作者**：StarsWhere
+- **版本**：0.0.1
+- **类型**：Dify 工具插件（Python 3.12）
+- **仓库**：https://github.com/StarsWhere/knowledge-control-datasets
+- **联系邮箱**：starswherevip@gmail.com
 
 ### 功能概览
 - 管理知识库：创建 / 更新 / 删除 / 详情 / 列表。
@@ -24,8 +26,8 @@
 
 ### 行为与默认值
 - 嵌入/重排模型字段可留空，留空则使用工作区/知识库默认；如需手选，直接填写模型名称。
-- 重排模式下拉：`rerank_all`（重排全部候选）/ `rerank_top_k`（仅重排 top_k）。不填则沿用知识库当前配置。
-- 检索参数（search_method、top_k、score_threshold、rerank_enable 等）都是可选，未填写不会覆盖现有设置。
+- 重排模式下拉：`reranking_model` / `weighted_score`。不填则沿用知识库当前配置。
+- 检索参数（`semantic_search`、`full_text_search`、`hybrid_search`、`keyword_search`、top_k、score_threshold、rerank_enable 等）都是可选，未填写不会覆盖现有设置。
 
 ### 快速开始（本地调试）
 1) 在虚拟环境安装依赖：`pip install -r requirements.txt`  

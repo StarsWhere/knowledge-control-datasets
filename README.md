@@ -2,10 +2,12 @@
 
 Knowledge-control-datasets is the dataset management tool plugin in the `knowledge-control` series. It exposes the Dify “数据集/知识库” API as a set of small, composable tools: list, create, update, delete, inspect details, and test retrieval. Each action is a separate tool to keep user prompts simple and predictable.
 
-**Author:** StarsWhere  
-**Version:** 0.0.1  
-**Type:** Dify Tool Plugin (Python 3.12)
-**License:** Apache-2.0
+- **Author:** StarsWhere
+- **Version:** 0.0.1
+- **Type:** Dify Tool Plugin (Python 3.12)
+- **License:** Apache-2.0
+- **Repository:** https://github.com/StarsWhere/knowledge-control-datasets
+- **Contact:** starswherevip@gmail.com
 
 ### What it does
 - Manage datasets in a workspace: create, update, delete, view detail, list all.
@@ -25,8 +27,8 @@ Knowledge-control-datasets is the dataset management tool plugin in the `knowled
 
 ### Key behaviors / defaults
 - Embedding & rerank models: fields are optional. If left blank, Dify uses the workspace/dataset defaults.
-- Rerank mode options (dropdown): `rerank_all` (rerank all retrieved items) or `rerank_top_k` (rerank only top_k). Leaving it empty keeps the dataset’s existing setting.
-- Retrieval options (search_method, top_k, score_threshold, rerank_enable) are optional; unset values do not override existing dataset settings.
+- Rerank mode options (dropdown): `reranking_model` or `weighted_score`. Leaving it empty keeps the dataset’s existing setting.
+- Retrieval options (`semantic_search`, `full_text_search`, `hybrid_search`, `keyword_search`, top_k, score_threshold, rerank_enable) are optional; unset values do not override existing dataset settings.
 
 ### Quick start (local debug)
 1) Install deps in your venv: `pip install -r requirements.txt`  

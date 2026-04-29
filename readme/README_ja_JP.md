@@ -2,9 +2,11 @@
 
 `knowledge-control-datasets` は `knowledge-control` シリーズの「ナレッジベース/データセット管理」用ツールプラグインです。Dify のデータセット API を、一覧・作成・更新・削除・詳細取得・検索テストの小さなツールに分割し、シンプルに扱えるようにしました。
 
-**作者**：StarsWhere  
-**バージョン**：0.0.1  
-**タイプ**：Dify ツールプラグイン（Python 3.12）
+- **作者**：StarsWhere
+- **バージョン**：0.0.1
+- **タイプ**：Dify ツールプラグイン（Python 3.12）
+- **リポジトリ**：https://github.com/StarsWhere/knowledge-control-datasets
+- **連絡先**：starswherevip@gmail.com
 
 ### 機能
 - ナレッジの作成 / 更新 / 削除 / 詳細取得 / 一覧。
@@ -24,8 +26,8 @@
 
 ### デフォルト挙動
 - 埋め込み/リランクモデルは未入力でも可。未入力ならワークスペース/ナレッジのデフォルトを使用。必要に応じてモデル名を直接入力。  
-- リランクモード（プルダウン）：`rerank_all`（全件リランク） / `rerank_top_k`（top_k のみ）。未入力なら既存設定を保持。  
-- 検索パラメータ（search_method, top_k, score_threshold, rerank_enable など）は任意。未入力なら既存値を上書きしない。
+- リランクモード（プルダウン）：`reranking_model` / `weighted_score`。未入力なら既存設定を保持。
+- 検索パラメータ（`semantic_search`, `full_text_search`, `hybrid_search`, `keyword_search`, top_k, score_threshold, rerank_enable など）は任意。未入力なら既存値を上書きしない。
 
 ### すぐ試す手順
 1) 仮想環境で依存インストール：`pip install -r requirements.txt`  
