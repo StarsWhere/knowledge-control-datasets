@@ -1,3 +1,31 @@
+# knowledge-control-datasets
+
+<!-- starswhere-docs-overview -->
+
+## 项目概览
+
+**定位**：面向 Dify Marketplace 的知识库数据集管理插件，提供对数据集资源的统一工具封装。
+
+**核心功能**：
+- 列出、创建、更新和删除数据集
+- 获取数据集详情与执行检索
+- 提供多语言 README 与插件隐私说明
+- 包含 Dify 插件 manifest 和发布工作流
+
+**技术栈**：Python、Dify Plugin SDK、YAML Manifest、GitHub Actions；Python 环境建议使用 uv。
+
+**目录与模块**：`provider/` 定义插件 Provider；`tools/` 放置各数据集操作工具；`manifest.yaml` 是插件元数据；`readme/` 保存多语言说明。
+
+**使用方式**：按 Dify 插件开发流程加载本插件；本地 Python 依赖使用 `uv` 根据 `requirements.txt` 管理。
+
+**配置说明**：`.env.example`、`manifest.yaml` 和各 `tools/*.yaml` 描述运行所需参数。
+
+**适用场景**：适合在 Dify 工作流中自动化管理知识库数据集。
+
+**注意事项**：插件会访问 Dify 数据集接口，使用前需确认 API Key 权限和目标工作区。
+
+<!-- /starswhere-docs-overview -->
+
 ## knowledge-control-datasets
 
 Knowledge-control-datasets is the dataset management tool plugin in the `knowledge-control` series. It exposes the Dify “数据集/知识库” API as a set of small, composable tools: list, create, update, delete, inspect details, and test retrieval. Each action is a separate tool to keep user prompts simple and predictable.
